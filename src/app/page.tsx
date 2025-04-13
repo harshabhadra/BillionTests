@@ -5,7 +5,6 @@ import {Input} from "@/components/ui/input";
 import {useState} from "react";
 import {Alert, AlertDescription, AlertTitle} from "@/components/ui/alert";
 import {CheckCircle, Phone} from "lucide-react";
-import {validatePhoneNumber} from "@/services/phone-validation";
 
 export default function Home() {
   const defaultCountryCode = "+91";
@@ -27,37 +26,15 @@ export default function Home() {
     setSuccess(false);
 
     try {
-      const validationResult = await validatePhoneNumber(phoneNumber);
-
-      if (validationResult.isValid) {
-        // Simulate account deletion process (replace with actual deletion logic)
-        setTimeout(() => {
-          setSuccess(true);
-        }, 1500);
-      } else {
-        setError("Invalid phone number format. Please enter a valid phone number.");
-      }
+      // Simulate account deletion process (replace with actual deletion logic)
+      setTimeout(() => {
+        setSuccess(true);
+      }, 1500);
     } catch (e: any) {
-      setError("Failed to validate the phone number. Please try again.");
+      setError("Failed to request deletion. Please try again.");
     } finally {
       setIsRequestingDeletion(false);
     }
-  };
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    let value = e.target.value;
-
-    const numericValue = value.replace(/[^0-9]/g, '');
-
-    if (numericValue.startsWith(defaultCountryCode)) {
-      const remainingDigits = numericValue.slice(defaultCountryCode.length);
-      const truncatedValue = defaultCountryCode + remainingDigits.slice(0, 10);
-      value = truncatedValue;
-    } else {
-      value = defaultCountryCode;
-    }
-
-    setPhoneNumber(value);
   };
 
   return (
@@ -73,8 +50,7 @@ export default function Home() {
             type="tel"
             placeholder="Phone Number"
             value={phoneNumber}
-            onChange={handleChange}
-            required
+            readOnly
             className="pl-10"
             disabled={isRequestingDeletion}
           />
