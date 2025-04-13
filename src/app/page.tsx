@@ -45,13 +45,19 @@ export default function Home() {
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    if (value.startsWith(defaultCountryCode)) {
-      setPhoneNumber(value);
+    let value = e.target.value;
+
+    // Allow only numbers and limit to 10 digits after the country code
+    const numericValue = value.replace(/[^0-9]/g, '');
+    if (numericValue.startsWith(defaultCountryCode)) {
+      const remainingDigits = numericValue.slice(defaultCountryCode.length);
+      const truncatedValue = defaultCountryCode + remainingDigits.slice(0, 10);
+      value = truncatedValue;
     } else {
-      // If the user tries to delete the country code, reset it
-      setPhoneNumber(defaultCountryCode);
+      value = defaultCountryCode;
     }
+    setPhoneNumber(value);
+
   };
 
   return (
@@ -107,4 +113,3 @@ export default function Home() {
     </div>
   );
 }
-
