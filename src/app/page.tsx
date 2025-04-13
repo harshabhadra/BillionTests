@@ -1,33 +1,33 @@
 "use client";
 
-import {PhoneValidationResult, validatePhoneNumber} from "@/services/phone-validation";
 import {Button} from "@/components/ui/button";
 import {Input} from "@/components/ui/input";
 import {useState} from "react";
 import {Alert, AlertDescription, AlertTitle} from "@/components/ui/alert";
 import {CheckCircle, Phone} from "lucide-react";
-import {cn} from "@/lib/utils";
-import {Icons} from "@/components/icons";
-
-const {ExclamationTriangle} = Icons;
+import {validatePhoneNumber} from "@/services/phone-validation";
 
 export default function Home() {
   const defaultCountryCode = "+91";
   const [phoneNumber, setPhoneNumber] = useState(defaultCountryCode);
   const [isRequestingDeletion, setIsRequestingDeletion] = useState(false);
-  const [deletionResult, setDeletionResult] = useState<PhoneValidationResult | null>(null);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
+
+    if (phoneNumber.length !== 13) {
+      setError("Please enter a valid 10-digit phone number after the country code.");
+      return;
+    }
+
     setIsRequestingDeletion(true);
     setError(null);
     setSuccess(false);
 
     try {
       const validationResult = await validatePhoneNumber(phoneNumber);
-      setDeletionResult(validationResult);
 
       if (validationResult.isValid) {
         // Simulate account deletion process (replace with actual deletion logic)
@@ -47,8 +47,8 @@ export default function Home() {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     let value = e.target.value;
 
-    // Allow only numbers and limit to 10 digits after the country code
     const numericValue = value.replace(/[^0-9]/g, '');
+
     if (numericValue.startsWith(defaultCountryCode)) {
       const remainingDigits = numericValue.slice(defaultCountryCode.length);
       const truncatedValue = defaultCountryCode + remainingDigits.slice(0, 10);
@@ -56,8 +56,8 @@ export default function Home() {
     } else {
       value = defaultCountryCode;
     }
-    setPhoneNumber(value);
 
+    setPhoneNumber(value);
   };
 
   return (
@@ -105,7 +105,15 @@ export default function Home() {
 
       {error && (
         <Alert variant="destructive" className="mt-4 w-full max-w-md">
-          <ExclamationTriangle className="h-4 w-4"/>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="currentColor"
+            stroke="none"
+            className="h-4 w-4"
+          >
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L7.268 5c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+          </svg>
           <AlertTitle>Error</AlertTitle>
           <AlertDescription>{error}</AlertDescription>
         </Alert>
