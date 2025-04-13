@@ -83,8 +83,8 @@ export default function Home() {
           <AlertDescription>
             Your account deletion has been successfully requested. Please allow 3-5 business days for
             the process to complete. If you have any issues, contact{" "}
-            <a href="mailto:support@example.com" className="underline">
-              support@example.com
+            <a href="mailto:outreach@excl.ai" className="underline">
+             outreach@excl.ai
             </a>
             .
           </AlertDescription>
