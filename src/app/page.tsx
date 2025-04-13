@@ -45,7 +45,7 @@ export default function Home() {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-background p-4">
-      <h1 className="text-2xl font-semibold mb-4 text-foreground">Account Vanisher</h1>
+      <h1 className="text-2xl font-semibold mb-4 text-foreground">Billion Tests</h1>
       <p className="text-muted-foreground mb-4">
         Enter your phone number to request account deletion.
       </p>
