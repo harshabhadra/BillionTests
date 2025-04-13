@@ -12,7 +12,7 @@ import {Icons} from "@/components/icons";
 const {ExclamationTriangle} = Icons;
 
 export default function Home() {
-  const [phoneNumber, setPhoneNumber] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("+91");
   const [isRequestingDeletion, setIsRequestingDeletion] = useState(false);
   const [deletionResult, setDeletionResult] = useState<PhoneValidationResult | null>(null);
   const [success, setSuccess] = useState(false);
