@@ -12,7 +12,8 @@ import {Icons} from "@/components/icons";
 const {ExclamationTriangle} = Icons;
 
 export default function Home() {
-  const [phoneNumber, setPhoneNumber] = useState("+91");
+  const defaultCountryCode = "+91";
+  const [phoneNumber, setPhoneNumber] = useState(defaultCountryCode);
   const [isRequestingDeletion, setIsRequestingDeletion] = useState(false);
   const [deletionResult, setDeletionResult] = useState<PhoneValidationResult | null>(null);
   const [success, setSuccess] = useState(false);
@@ -43,6 +44,16 @@ export default function Home() {
     }
   };
 
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    if (value.startsWith(defaultCountryCode)) {
+      setPhoneNumber(value);
+    } else {
+      // If the user tries to delete the country code, reset it
+      setPhoneNumber(defaultCountryCode);
+    }
+  };
+
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-background p-4">
       <h1 className="text-2xl font-semibold mb-4 text-foreground">Billion Tests</h1>
@@ -56,7 +67,7 @@ export default function Home() {
             type="tel"
             placeholder="Phone Number"
             value={phoneNumber}
-            onChange={(e) => setPhoneNumber(e.target.value)}
+            onChange={handleChange}
             required
             className="pl-10"
             disabled={isRequestingDeletion}
