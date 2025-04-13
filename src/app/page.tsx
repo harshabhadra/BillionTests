@@ -37,6 +37,18 @@ export default function Home() {
     }
   };
 
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const value = event.target.value;
+    // Allow only numbers and limit to 13 characters (including +91)
+    const numericValue = value.replace(/[^0-9+]/g, '').slice(0, 13);
+    if (numericValue.startsWith("+91") || numericValue === "") {
+      setPhoneNumber(numericValue);
+    } else {
+      setPhoneNumber("+91" + numericValue);
+    }
+
+  };
+
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-background p-4">
       <h1 className="text-2xl font-semibold mb-4 text-foreground">Billion Tests</h1>
@@ -50,7 +62,7 @@ export default function Home() {
             type="tel"
             placeholder="Phone Number"
             value={phoneNumber}
-            readOnly
+            onChange={handleChange}
             className="pl-10"
             disabled={isRequestingDeletion}
           />
